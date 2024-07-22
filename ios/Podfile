@@ -1,0 +1,25 @@
+platform :ios, '12.0'
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  # Pods for Runner
+  pod 'AMapLocation', '~> 2.10.0'
+  pod 'AMap3DMap', '~> 10.0.700'
+
+  target 'RunnerTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
+      end
+    end
+  end
+end
+
+install! 'cocoapods', warn_for_unused_master_specs_repo: false
